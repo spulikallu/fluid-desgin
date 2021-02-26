@@ -10,8 +10,10 @@ body {
 .ccc-shell{
   box-sizing: border-box;
   background-color: blue;
-  width: clamp(1024px, 100vw, 3840px);
-  height: clamp(576px, 100vh, 2160px); 
+
+
+  .fluid-width(1024, 3840);
+  .fluid-height(768, 2160);
   position: relative; 
 }
 
@@ -117,3 +119,61 @@ footer {
     flex-direction: column;
   }
 }
+
+
+
+
+@minVWSupported : 1024;
+@minVHSupported : 576;
+@tabletDesignVW : 1024;
+@tabletDesignVH : 768;
+@optiplexDesignVW : 3840;
+@optiplexDesignVH : 2160;
+
+.respond-to(@screen, @rules) when (@screen = "optiplex") {
+  @media screen and (min-width: 1280px) {
+    @rules();
+  }
+}
+
+
+.fluid-optiplex-width(@optiplexWidth){
+  .respond-to('optiplex', {
+  width: clamp(
+    @tabletWidth*1px,    
+    round( (@optiplexWidth/@optiplexDesignVW)*100, 2)*1vw,
+    @optiplexWidth*1px    
+  );});
+}
+
+.fluid-width(@tabletWidth, @optiplexWidth){   
+  width: clamp(
+    @tabletWidth*1px,    
+    round( (@tabletWidth/@tabletDesignVW)*100, 2)*1vw,
+    @optiplexWidth*1px    
+  );
+  .fluid-optiplex-width(@optiplexWidth);
+}
+
+.fluid-optiplex-height(@optiplexHeight){  
+  .respond-to('optiplex', { 
+  height: clamp(
+    (@tabletHeight/@tabletDesignVH)*@minVHSupported * 1px,    
+    round( (@optiplexHeight/@optiplexDesignVH)*100, 2)*1vh,
+    @optiplexHeight*1px    
+  );});
+}
+
+
+.fluid-height(@tabletHeight, @optiplexHeight){   
+  height: clamp(
+    (@tabletHeight/@tabletDesignVH)*@minVHSupported * 1px,    
+    round( (@tabletHeight/@tabletDesignVH)*100, 2)*1vh,
+    @optiplexHeight*1px    
+  );
+  .fluid-optiplex-height(@optiplexHeight);
+}
+
+
+
+

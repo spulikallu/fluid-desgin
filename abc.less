@@ -1,0 +1,45 @@
+/*
+1. Fonts - (rem, vw, rem)
+2. Fluid-with(165, 409)
+3. Fluid-height(120, 310)
+4. Margin, padding’s PX —— fixed
+
+*/
+
+
+
+//minVWSupported = 1024;
+//minVHSupported = 576;
+
+
+//tabletDesignVW = 1024;
+//tabletDesignVH = 768;
+
+
+//optiplexDesignVW = 3840;
+//optiplexDesignVH = 2160;
+
+
+
+.fluid-width(@tabletWidth, @optiplexWidth){
+  width: clamp(@tabletWidth, round((@tabletWidth/@tabletDesignVW*100),2)vw ,@optiplexWidth);
+  width: clamp(90px, 16.11vw, 409px);  
+  @media screen and (min-width: 1280px) {
+    width: clamp(90px, 10.65vw, 409px);  
+    width: clamp(@tabletWidth, round((@optiplexWidth/@optiplexDesignVW*100),2)vw ,@optiplexWidth);
+  }
+
+}
+
+.fluid-height(@tabletHeight, @optiplexHeight){
+
+  height: clamp((@tabletHeight/tabletDesignVH))*576px, round(@tabletHeight/@tableDesighVH)*100,2)vh, @optiplexHeight)
+
+  height: clamp(22.5px, 3.90vh, 90px);  
+  @media screen and (min-width: 1280px) {
+    eight: clamp((@tabletHeight/optiplexDesignVH))*576px, round(@tabletHeight/optiplexVH)*100,2)vh, @optiplexHeight)
+
+    height: clamp(22.5px, 4.16vh, 90px);  
+    margin: 30px;
+  }
+}
