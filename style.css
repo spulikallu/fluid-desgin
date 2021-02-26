@@ -9,8 +9,9 @@ body {
 
 .container-shell{
   box-sizing: border-box;
-  border: 10px solid #16f3ef;
-  height: 100vh;
+  
+  
+
 }
 
 /* Style the header */
