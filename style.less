@@ -7,21 +7,29 @@ body {
   margin: 0;
 }
 
-.container-shell{
+.ccc-shell{
   box-sizing: border-box;
-  
-  
-
+  background-color: blue;
+  width: clamp(1024px, 100vw, 3840px);
+  height: clamp(576px, 100vh, 2160px); 
+  position: relative; 
 }
 
 /* Style the header */
 header {
   background-color: #666;
-  padding: 30px;
+  padding: 20px;
   text-align: center;
   font-size: 35px;
   color: white;
+  height: clamp(45px, 7.81vh, 200px);  
+  @media screen and (min-width: 1280px) {
+    height: clamp(45px, 9.25vh, 200px);  
+  }
 }
+
+
+
 
 /* Container for flexboxes */
 section {
@@ -59,7 +67,17 @@ footer {
   padding: 10px;
   text-align: center;
   color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: clamp(90px, 15.62vh, 310px);  
+  @media screen and (min-width: 1280px) {
+    height: clamp(90px, 14.35vh, 310px);  
+  }
 }
+
+
+
 
 /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
 @media (max-width: 600px) {
