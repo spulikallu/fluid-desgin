@@ -77,6 +77,37 @@ footer {
 }
 
 
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: DodgerBlue;
+
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+ 
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+
+
+
+  width: clamp(90px, 16.11vw, 409px);  
+  @media screen and (min-width: 1280px) {
+    width: clamp(90px, 10.65vw, 409px);  
+  }
+
+  height: clamp(22.5px, 3.90vh, 90px);  
+  @media screen and (min-width: 1280px) {
+    height: clamp(22.5px, 4.16vh, 90px);  
+    margin: 30px;
+  }
+
+
+}
+
 
 
 /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
