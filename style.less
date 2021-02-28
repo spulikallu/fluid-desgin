@@ -10,17 +10,14 @@ body {
 .ccc-shell{
   box-sizing: border-box;
   background-color: #000;
-  .fbox('width', 1024px, 100%);
-  .fbox('height', 768px, 100%);
+  .fbox(width, 1024px, 3840px);
+  .fbox(height, 768px, 2160px);
   position: relative; 
 }
 
 
 .viewport-value{
-  font-size: clamp(14px, 1.82vw, 40px);
-  .respond-to('optiplex', {
-    font-size: clamp(14px, 1.04vw, 40px);
-  })
+  .fluid-font-size(14px, 40px);
 }
 
 .cbutton-primary{
@@ -29,8 +26,8 @@ body {
   border: 1px solid white;
   background-color: #06a1de;
   color: white;
-  .fluid-height(32px, 92px);
-  .fluid-width(112px, 304px);
+  .fbox(width, 112px, 304px);
+  .fbox(height, 32px, 92px); 
   .respond-to('optiplex', {
     margin: 20px;
   })
@@ -44,40 +41,25 @@ body {
   border-radius: 5px;
   border: 1px solid #06a1de;
   color: white;
-  .fluid-height(32px, 92px);
-  .fluid-width(112px, 304px);
+
+  .fbox(width,112px, 304px);
+  .fbox(height, 32px, 92px);
   .respond-to('optiplex', {
     margin: 20px;
   })
 }
 
-.ccc-shell{
-  box-sizing: border-box;
-  background-color: #000;
-  .fluid-width(1024px, 3840px);
-  .fluid-height(768px, 2160px);
-  position: relative; 
-}
 
 /* Style the header */
 header {  background-color: #0047ba;
-
   text-align: center;
   color: white;
-  .fbox('width', 1024px, 3840px);
-  .fluid-height(60px, 200px);
-  font-size: clamp(24px, 2.34vw, 72px);
-  .respond-to('optiplex', {
-    font-size: clamp(24px, 1.87vw, 72px);
-    padding: clamp(20px, );
-
-  })
-
-
+  .fbox(width, 1024px, 3840px);
+  .fbox(height, 60px, 200px);
+  .fbox(padding-top, 20px, 60px);
+  .fbox(padding-bottom, 20px, 60px);  
+  .fluid-font-size(24px, 72px);
 }
-
-
-
 
 /* Container for flexboxes */
 section {
@@ -118,7 +100,8 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  .fluid-height(103px, 310px);
+  .fluid-font-size(24px, 72px);
+  .fbox(height, 125px, 310px);
 }
 
 
@@ -132,15 +115,17 @@ footer {
   background-color: #f1f1f1;
   margin: 10px;
   text-align: center;
-  line-height: 75px;
   font-size: 30px;
   
   @media screen and (min-width: 1280px) {
     margin: 20px;
   }
 
-  .fluid-width(142px, 409px);
-  .fluid-height(30px, 90px)
+  .fbox(width, 162px, 409px);
+  .fbox(height, 30px, 90px);
+  .fbox(padding-top, 7px, 24px);
+  .fbox(padding-bottom, 7px, 24px);
+  .fluid-font-size(12px, 30px);
 }
 
 
@@ -150,14 +135,18 @@ footer {
 
 
 
-@minVWSupported : 1024;
-@minVHSupported : 640;
+@min-supported-vw : 992; /*min supported viewport value */
+@min-supported-vh : 640; /*min supported viewheight value */
 
-@tabletDesignVW : 1024;
-@tabletDesignVH : 768;
+@max-supported-vw : 3840; /*max supported viewport value */
+@max-supported-vh: 2160;  /*max supported viewheight value */
 
-@optiplexDesignVW : 3840;
-@optiplexDesignVH : 2160;
+@tablet-design-vw: 1024; /*tablet design viewport */
+@tablet-design-vh: 768;  /*table design viewheight */
+
+@optiplex-design-vw: 3840; /*optiplex design viewport */
+@optiplex-design-vh: 2160; /*optiplex design viewheight */
+
 
 .respond-to(@screen, @rules) when (@screen = "optiplex") {
   @media screen and (min-width: 1280px) {
@@ -165,88 +154,64 @@ footer {
   }
 }
 
-
-.fluid-optiplex-width(@tabletWidth, @optiplexWidth){
-  .respond-to('optiplex', {
-  width: clamp(
-    @tabletWidth,    
-    round( (unit(@optiplexWidth)/@optiplexDesignVW)*100, 2)*1vw,
-    @optiplexWidth    
-  );});
-}
-
-.fluid-width(@tabletWidth, @optiplexWidth){     
-  width: clamp(
-    @tabletWidth,    
-    round( (unit(@tabletWidth)/@tabletDesignVW)*100, 2)*1vw,
-    @optiplexWidth    
+.tvfluid-font-size(@tv){
+  font-size: min(
+    round((unit(@tv)/@optiplex-design-vw)*100, 2)*1vw,
+    round((unit(@tv)/@optiplex-design-vh)*100, 2)*1vh   
   );
-  .fluid-optiplex-width(@tabletWidth, @optiplexWidth);
-}
-
-.fluid-optiplex-height(@tabletHeight, @optiplexHeight){  
-  .respond-to('optiplex', { 
-  height: clamp(
-    (unit(@tabletHeight)/@tabletDesignVH)*@minVHSupported * 1px,    
-    round( (unit(@optiplexHeight)/@optiplexDesignVH)*100, 2)*1vh,
-    @optiplexHeight    
-  );});
 }
 
 
-.fluid-height(@tabletHeight, @optiplexHeight){   
-  height: clamp(
-    (unit(@tabletHeight)/@tabletDesignVH)*@minVHSupported * 1px,    
-    round( (unit(@tabletHeight)/@tabletDesignVH)*100, 2)*1vh,
-    @optiplexHeight    
+.fluid-font-size(@tab, @tv){
+  font-size: min(
+    round((unit(@tab)/@tablet-design-vw)*100, 2)*1vw,
+    round((unit(@tab)/@tablet-design-vh)*100, 2)*1vh   
   );
-  .fluid-optiplex-height(@tabletHeight, @optiplexHeight);
+  .tvfluid-font-size(@tv);
 }
-
-
-
-
 
 .xboxtv(@prop, @tab, @tv){
   .respond-to('optiplex', {
-    @prop: clamp(
-      @tab,    
-      round( (unit(@tv)/@optiplexDesignVW)*100, 2)*1vw,
-      @tv    
+    @{prop}: clamp(
+      (unit(@tab)/@tablet-design-vw)*@min-supported-vw * 1px,       
+      round((unit(@tv)/@optiplex-design-vw)*100, 2)*1vw,
+      (unit(@tv)/@optiplex-design-vw)*@max-supported-vw * 1px,        
     );});
 }
 
 .yboxtv(@prop, @tab, @tv){
   .respond-to('optiplex', {
-    @prop: clamp(
-      (unit(@tab)/@tabletDesignVH)*@minVHSupported * 1px,     
-      round( (unit(@tv)/@optiplexDesignVH)*100, 2)*1vh,
-      @tv    
+    @{prop}: clamp(
+      (unit(@tab)/@tablet-design-vh)*@min-supported-vh * 1px,      
+      round((unit(@tv)/@optiplex-design-vh)*100, 2)*1vh,
+      (unit(@tv)/@optiplex-design-vh)*@max-supported-vh * 1px,        
     );});
 }
 
-.fbox(@prop, @tab, @tv) when (@prop = 'width'), 
-  (@prop = 'padding-left'), 
-  (@prop = 'padding-right'), 
-  (@prop = 'margin-left'), 
-  (@prop = 'margin-right') {
-  @prop: clamp(
-    @tab,    
-    round( (unit(@tab)/@tabletDesignVW)*100, 2)*1vw,
-    @tv    
+.fbox(@prop, @tab, @tv) when (@prop = width), 
+  (@prop = padding-left), 
+  (@prop = padding-right), 
+  (@prop = margin-left), 
+  (@prop = margin-right) {
+  @{prop}: clamp(
+    (unit(@tab)/@tablet-design-vw)*@min-supported-vw * 1px,       
+    round((unit(@tab)/@tablet-design-vw)*100, 2)*1vw,
+    (unit(@tv)/@optiplex-design-vw)*@max-supported-vw * 1px,    
   );
   .xboxtv(@prop, @tab, @tv);
 }
 
-.fbox(@prop, @tab, @tv) when (@prop = 'height'), 
-  (@prop = 'padding-top'), 
-  (@prop = 'padding-bottom'), 
-  (@prop = 'margin-top'), 
-  (@prop = 'margin-bottom') {
-  @prop: clamp(
-    (unit(@tab)/@tabletDesignVH)*@minVHSupported * 1px,    
-    round( (unit(@tab)/@tabletDesignVH)*100, 2)*1vh,
-    @tv    
+
+.fbox(@prop, @tab, @tv) when (@prop = height), 
+  (@prop = padding-top), 
+  (@prop = padding-bottom), 
+  (@prop = margin-top), 
+  (@prop = margin-bottom) {
+  @{prop}: clamp(
+    (unit(@tab)/@tablet-design-vh)*@min-supported-vh * 1px,    
+    round((unit(@tab)/@tablet-design-vh)*100, 2)*1vh,
+    (unit(@tv)/@optiplex-design-vh)*@max-supported-vh * 1px,      
   );
-  .fboxtv(@prop, @tab, @tv);
+  .yboxtv(@prop, @tab, @tv);
 }
+
