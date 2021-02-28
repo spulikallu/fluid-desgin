@@ -7,6 +7,15 @@ body {
   margin: 0;
 }
 
+.ccc-shell{
+  box-sizing: border-box;
+  background-color: #000;
+  .fbox('width', 1024px, 100%);
+  .fbox('height', 768px, 100%);
+  position: relative; 
+}
+
+
 .viewport-value{
   font-size: clamp(14px, 1.82vw, 40px);
   .respond-to('optiplex', {
@@ -51,12 +60,11 @@ body {
 }
 
 /* Style the header */
-header {
-  background-color: #0047ba;
+header {  background-color: #0047ba;
 
   text-align: center;
   color: white;
-  .fluid-width(1024px, 3840px);
+  .fbox('width', 1024px, 3840px);
   .fluid-height(60px, 200px);
   font-size: clamp(24px, 2.34vw, 72px);
   .respond-to('optiplex', {
@@ -198,3 +206,47 @@ footer {
 
 
 
+
+.xboxtv(@prop, @tab, @tv){
+  .respond-to('optiplex', {
+    @prop: clamp(
+      @tab,    
+      round( (unit(@tv)/@optiplexDesignVW)*100, 2)*1vw,
+      @tv    
+    );});
+}
+
+.yboxtv(@prop, @tab, @tv){
+  .respond-to('optiplex', {
+    @prop: clamp(
+      (unit(@tab)/@tabletDesignVH)*@minVHSupported * 1px,     
+      round( (unit(@tv)/@optiplexDesignVH)*100, 2)*1vh,
+      @tv    
+    );});
+}
+
+.fbox(@prop, @tab, @tv) when (@prop = 'width'), 
+  (@prop = 'padding-left'), 
+  (@prop = 'padding-right'), 
+  (@prop = 'margin-left'), 
+  (@prop = 'margin-right') {
+  @prop: clamp(
+    @tab,    
+    round( (unit(@tab)/@tabletDesignVW)*100, 2)*1vw,
+    @tv    
+  );
+  .xboxtv(@prop, @tab, @tv);
+}
+
+.fbox(@prop, @tab, @tv) when (@prop = 'height'), 
+  (@prop = 'padding-top'), 
+  (@prop = 'padding-bottom'), 
+  (@prop = 'margin-top'), 
+  (@prop = 'margin-bottom') {
+  @prop: clamp(
+    (unit(@tab)/@tabletDesignVH)*@minVHSupported * 1px,    
+    round( (unit(@tab)/@tabletDesignVH)*100, 2)*1vh,
+    @tv    
+  );
+  .fboxtv(@prop, @tab, @tv);
+}
